@@ -12,18 +12,8 @@
 <body>
     <nav class="navbar navbar-expand navbar-light bg-faded">
         <ul class="nav mainNav">
-            <a class="navbar-brand" href="#"><h2>World Guessing Game</h2></a>         
-            <button id="startGame" class="btn btn-success mainSubmit my-sm-0" type="submit">Start the game!</button>
+            <a class="navbar-brand" href="#"><h2>World Guessing Game</h2></a>                     
         </ul>
-        <script>
-            document.getElementById("startGame").onclick = function(e){
-                loadThePage();
-            }
-
-            document.onkeyup = function(e){
-                winOrloose(e);
-            }
-        </script>
     </nav>
     <section class="row mainRow">
         <div class="col col-md-2"></div>
@@ -49,39 +39,34 @@
             <input type="text" class="letterBox" id="text9">
             <input type="text" class="letterBox" id="text10">           
         </div>
-        <div class="row">
-            <!-- <label for="cntTries"></label> -->
-            <!-- <input type="text" style="display:none"/> -->
-            <input id="guessBox" type="text"/>
-            <input id="looserBox" type="text" hidden="true" />
-            <!-- <div class="input-group input-group-lg">
-                <div class="input-group-prepend">
-                    <span class="input-group-text alert-danger" id="looserBox">Sorry! You lost!</span>
-                </div>
-                <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" >
-            </div> -->
-        </div>
-    </section>
-    <!-- Modal -->
-    <div class="modal fade" id="wordGameModalCenter" tabindex="-1" role="dialog" aria-labelledby="wordGameModalCenterTitle" >
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title alert-danger" id="wordGameModalLongTitle">You lost!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span>&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        Don't give up! You can play again!
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Restart the Game</button>
-                    </div>
-                </div>
+
+        <div id = "inputGroup-guessBox" class="input-group input-group-lg">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup1">Attempts used out of 10</span>
+            </div>
+            <input id="guessBox" type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
+             <!-- <div class="col-lg-4"> -->
+                <button id="startGame" class="btn btn-success mainSubmit" type="submit">Start the game!</button>
+            <!-- </div> -->
+            <script>
+                    document.getElementById("startGame").onclick = function(e){
+                        document.getElementById("guessBox").value = "";
+                        for (i=0; i <11; i++)
+                        {
+                            var myTxt = "text" + i;
+                            document.getElementById(myTxt).value = "";
+                            document.getElementById(myTxt).readOnly = true;
+                        }                
+                        loadThePage();
+                    }
+        
+                    document.onkeyup = function(e){
+                        winOrloose(e);
+                    }
+                </script>
+    </section>
 </body>
 <footer class="page-footer mainFooter font-small bg-secondary">
     <!-- Copyright -->

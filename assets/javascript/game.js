@@ -2,11 +2,11 @@
 var imgFolder = "assets/images/";
 var currentWord = [];
 var winningAlphabets = [];
+var selectedWinAlphabets = [];
 var noOfattempts = 0;
 var loosingAlphabets = [];
 var noOfwins = 0;
-var noOfletters = 0;
-var selectedWinAlphabets = [];
+var counter = 0;
 
 function getAlphabets(){    
     var lowerString = currentWord[0].toUpperCase().split('');
@@ -29,8 +29,8 @@ function getAlphabets(){
 }
 
 function findIndexInArrayAndUpdateText(arr, value){
-    var looser = document.getElementById("wordGameModalLongTitle");
-    var winModal = document.getElementById("wordGameModalCenter");
+    var guessCounter = document.getElementById("guessBox");
+
     for (var i=0; i<arr.length; i++) {    
         if (arr[i] == value)
         {
@@ -42,30 +42,47 @@ function findIndexInArrayAndUpdateText(arr, value){
             {
                 selectedWinAlphabets.push(arr[i]);
             }
-            if(selectedWinAlphabets.length == winningAlphabets.length)
-            {
-                winModal.hidden = false;
-                looser.hidden = false;
-                looser.innerHTML = "You have won!"; //wordGameModalLongTitle
-            }
+        }
+
+        if(selectedWinAlphabets.length >= winningAlphabets.length)
+        {
+            console.log("reached here" + counter);
+            // console.log("reached final");
+            console.log("WinAlph: " + winningAlphabets);
+            console.log("SelAlph: " + selectedWinAlphabets);
+            // lossCounter.setAttribute("color","red");
+            guessCounter.value = "";
+            guessCounter.value = "You Won!"
         }
     }
+    myGuessCounter.value = loosingAlphabets.length;
 }
 
 function loadThePage(){
-    var modal = document.getElementById("wordGameModalCenter");
-    modal.hidden = "true";
-    //aria-hidden="true"
-    var option0 = ["Fast Food", "option01.jpg", "option02.jpg", 8];
-    var option1 = ["Bird Watcher", "option11.png", "option12.png", 11];
-    var option2 = ["World Bank", "option21.png", "option22.jpg", 9];
-    var option3 = ["Earth Worm", "option31.png", "option32.png", 9];
-    var option4 = ["Green Tea", "option41.jpg", "option42.png", 8];
-    var option5 = ["Black Mail", "option51.png", "option52.png", 9];
+    //reset every counter
+    currentWord = [];
+    winningAlphabets = [];
+    selectedWinAlphabets = [];
+    noOfattempts = 0;
+    loosingAlphabets = [];
+    noOfwins = 0;
 
-    var gameWords = [option0, option1, option2, option3, option4, option5];
+    //aria-hidden="true"
+    var option0 = ["fast food", "option01.jpg", "option02.jpg"];
+    var option1 = ["Bird Watcher", "option11.png", "option12.png"];
+    var option2 = ["World Bank", "option21.png", "option22.jpg"];
+    var option3 = ["Earth Worm", "option31.png", "option32.png"];
+    var option4 = ["Green Tea", "option41.jpg", "option42.png"];
+    var option5 = ["Black Mail", "option51.png", "option52.png"];
+    var option6 = ["fruit loop", "option61.jpg", "option62.jpg"];
+    var option7 = ["boiled egg", "option71.png", "option72.png"];
+    var option8 = ["water polo", "option81.png", "option82.jpg"];
+    var option9 = ["fall colors", "option91.jpg", "option92.jpg"];
+    var option10 = ["traffic jam", "option101.jpg", "option102.jpg"];
+
+    var gameWords = [option0, option1, option2, option3, option4, option5, option6, option7, option8, option9, option10];
     var min = 0;
-    var max = gameWords.length - 1;
+    var max = gameWords.length;
 
     var i = Math.random() * (max - min) + min;
     currentWord = gameWords[Math.round(i)]
@@ -76,20 +93,16 @@ function loadThePage(){
     
     var firstImgSource = imgFolder + currentWord[1];
     var secondImgSource = imgFolder + currentWord[2];
-    noOfletters = currentWord[3];
-    var hideIt = true;
-    // console.log(firstImgSource);
-    // console.log(secondImgSource);
-    // console.log(noOfletters);
 
     firstImage.src = firstImgSource;
     secondImage.src = secondImgSource;
 }
 
-function winOrloose(e) {
-    var arr = getAlphabets();
-    var wrongGuess = document.getElementById("guessBox");
-    var looser = document.getElementById("wordGameModalLongTitle");
+function winOrloose(e) {       
+    var lossCounter = document.getElementById("guessBox"); 
+    lossCounter.value ="";
+    var arr = getAlphabets();    
+    // var looser = document.getElementById("wordGameModalLongTitle");
     var currAlphabet = e.key.toUpperCase();    
     // console.log(winningAlphabets);
     if (winningAlphabets.includes(currAlphabet))
@@ -98,29 +111,20 @@ function winOrloose(e) {
     }
     else
     {
-        if(!loosingAlphabets.includes(e.key))
+        if(!loosingAlphabets.includes(currAlphabet))
         {
-            wrongGuess.textContent = wrongGuess.textContent + e.key;
+            loosingAlphabets.push(currAlphabet);
+            lossCounter.value = loosingAlphabets.length;
             noOfattempts = noOfattempts + 1;
-            if (noOfattempts > 10)
+            
+            if (noOfattempts >= 10)
             {
-                //make modal visible
-                looser.textContent = "Don't give up! You can play again!";
-                looser.hidden = false;
-                console.log("You lost!");
+                lossCounter.value = loosingAlphabets.length;
+                lossCounter.setAttribute("color","red");
+                lossCounter.value = noOfattempts; 
+                lossCounter.value = "You lost! Click to play again";
             }
         }
     }
 }
 
-
-// body.addEventListener('keydown', function(event) {
-//     if(event.keyCode == 37) {
-//         alert('Left was pressed');
-//     }
-//     else if(event.keyCode == 39) {
-//         alert('Right was pressed');
-//     }
-
-//     console.log(event.keyCode);
-// });
